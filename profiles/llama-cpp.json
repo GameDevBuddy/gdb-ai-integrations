@@ -1,0 +1,10 @@
+{
+  "id": "gamedevbuddy.llama-cpp",
+  "name": "llama.cpp server",
+  "version": "1.0.0",
+  "protocol": "openai",
+  "defaultEndpoint": "http://127.0.0.1:8080/v1",
+  "capabilities": [
+    "chat"
+  ]
+}

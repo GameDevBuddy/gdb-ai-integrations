@@ -1,0 +1,10 @@
+{
+  "id": "gamedevbuddy.openrouter",
+  "name": "OpenRouter",
+  "version": "1.0.0",
+  "protocol": "openai",
+  "defaultEndpoint": "https://openrouter.ai/api/v1",
+  "capabilities": [
+    "chat"
+  ]
+}

@@ -1,0 +1,42 @@
+name: Publish signed integrations
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: catalogue-publish
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Validate and sign profiles
+        env:
+          AI_INTEGRATION_SIGNING_KEY: ${{ secrets.AI_INTEGRATION_SIGNING_KEY }}
+        run: node publish.mjs
+      - name: Publish complete catalogue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git ls-remote --exit-code origin refs/heads/published >/dev/null; then
+            git fetch origin published
+            git worktree add release origin/published
+          else
+            git worktree add --detach release
+            cd release
+            git checkout --orphan published
+            git rm -rf .
+            cd ..
+          fi
+          cp -r dist/* release/
+          cd release
+          git add catalogue.json publisher.json packages
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Publish signed integration catalogue"
+          git push origin HEAD:published
