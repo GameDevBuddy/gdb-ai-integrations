@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "packages": [
+    "https://raw.githubusercontent.com/GameDevBuddy/gdb-ai-integrations/published/packages/gamedevbuddy.llama-cpp.json",
+    "https://raw.githubusercontent.com/GameDevBuddy/gdb-ai-integrations/published/packages/gamedevbuddy.openrouter.json"
+  ]
+}
